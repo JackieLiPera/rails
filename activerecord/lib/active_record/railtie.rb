@@ -133,7 +133,10 @@ end_error
               next if current_version.nil?
 
               cache = YAML.load(File.read(filename))
-              if cache.version == current_version
+              case
+              when cache.missing_indexes?
+                warn "Ignoring db/schema_cache.yml because it is missing index information. Generate a new schema cache with indexes."
+              when cache.version == current_version
                 connection.schema_cache = cache
                 connection_pool.schema_cache = cache.dup
               else

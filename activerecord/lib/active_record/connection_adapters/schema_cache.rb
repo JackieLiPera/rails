@@ -87,6 +87,11 @@ module ActiveRecord
         @columns_hash.key?(table_name)
       end
 
+      # TODO: Remove internal method without deprecation in Rails 6.1.
+      def missing_indexes?
+        @indexes.nil?
+      end
+
       def indexes(table_name)
         @indexes[table_name] ||= connection.indexes(table_name)
       end

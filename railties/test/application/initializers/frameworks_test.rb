@@ -229,6 +229,13 @@ module ApplicationTests
       assert_not ActiveRecord::Base.connection.schema_cache.data_sources("posts")
     end
 
+    test "use schema cache dump with indexes" do
+      rails %w(generate model post title:string:index)
+      rails %w(db:migrate db:schema:cache:dump)
+      require "#{app_path}/config/environment"
+      assert_equal 1, ActiveRecord::Base.connection.schema_cache.indexes("posts").size
+    end
+
     test "active record establish_connection uses Rails.env if DATABASE_URL is not set" do
       require "#{app_path}/config/environment"
       orig_database_url = ENV.delete("DATABASE_URL")

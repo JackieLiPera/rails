@@ -41,10 +41,6 @@ module ActiveRecord
           assert cache.data_sources("posts")
           assert_equal "id", cache.primary_keys("posts")
         end
-
-        assert_queries 1 do
-          assert_equal 1, cache.indexes("posts")
-        end
       end
 
       def test_primary_key_for_non_existent_table
